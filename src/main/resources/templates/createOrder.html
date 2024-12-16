@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="_bootstrap::link">
+    <meta charset="UTF-8">
+    <title>Оформление заказа</title>
+</head>
+<body>
+<header th:insert="_header"></header>
+<div class="container mt-4">
+    <h2>Оформить новый заказ</h2>
+
+    <!-- Форма для оформления заказа -->
+    <form th:action="@{/orders/create}" method="post">
+        <div class="mb-3">
+            <label for="theme" class="form-label">Тема заказа</label>
+            <input type="text" class="form-control" id="theme" name="theme" required placeholder="Введите тему заказа">
+        </div>
+        <div class="mb-3">
+            <label for="details" class="form-label">Описание заказа</label>
+            <textarea class="form-control" id="details" name="details" rows="3" required placeholder="Введите подробности заказа"></textarea>
+        </div>
+        <button type="submit" class="btn btn-success w-100">Оформить заказ</button>
+    </form>
+</div>
+
+<!-- Скрипты для работы Bootstrap -->
+<th:block th:insert="_bootstrap::script"></th:block>
+</body>
+</html>

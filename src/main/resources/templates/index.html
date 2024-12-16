@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="_bootstrap::link">
+    <meta charset="UTF-8">
+    <title>Вход</title>
+</head>
+<body>
+<header th:insert="_header"></header>
+<h1>welcome to banking</h1>
+<div sec:authorize="hasRole('USER')"><p>Вы авторизованы как пользователь.</p></div>
+<div sec:authorize="hasRole('ADMIN')"><p>Вы авторизованы как администратор.</p></div>
+<th:block th:insert="_bootstrap::script"></th:block>
+</body>
+</html>

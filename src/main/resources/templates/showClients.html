@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:insert="_bootstrap::link">
+    <meta charset="UTF-8">
+    <title>Все клиенты</title>
+</head>
+<body>
+<header th:insert="_header"></header>
+<div class="container">
+    <h2>Список клиентов</h2>
+
+    <!-- Проверка, если у пользователя есть клиенты -->
+    <div th:if="${clients != null and clients.size() > 0}">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Логин</th>
+                <th>ФИО</th>
+                <th>Пол</th>
+                <th>Электронная почта</th>
+                <th>Социальные сети</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="client : ${clients}">
+                <td th:text="${client.username}"></td>
+                <td th:text="${client.fullName}"></td>
+                <td th:text="${client.gender}"></td>
+                <td th:text="${client.email}"></td>
+                <td th:text="${client.socialMedia}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Если нет клиентов -->
+    <div th:if="${clients == null or clients.size() == 0}">
+        <p>Клиенты не найдены.</p>
+    </div>
+</div>
+
+<th:block th:insert="_bootstrap::script"></th:block>
+</body>
+</html>

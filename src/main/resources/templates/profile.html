@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="_bootstrap::link">
+    <meta charset="UTF-8">
+    <title>Профиль пользователя</title>
+</head>
+<body>
+<header th:insert="_header"></header>
+<div class="container">
+    <h2>Мой профиль</h2>
+
+    <!-- Профиль пользователя -->
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Информация о пользователе</h5>
+            <p><strong>Имя:</strong> <span th:text="${user.fullName}"></span></p>
+            <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+            <p><strong>Телефон:</strong> <span th:text="${user.socialMedia}"></span></p>
+
+            <!-- Кнопка для редактирования профиля -->
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                Редактировать
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно для редактирования профиля -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProfileModalLabel">Редактировать профиль</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/user/profile/edit}" method="post">
+                    <div>
+                        <label for="fullName">Имя</label>
+                        <input type="text" id="fullName" name="fullName" th:value="${user.fullName}" required>
+                    </div>
+                    <div>
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" th:value="${user.email}" required>
+                    </div>
+                    <div>
+                        <label for="socialMedia">Социальные сети</label>
+                        <input type="text" id="socialMedia" name="socialMedia" th:value="${user.socialMedia}">
+                    </div>
+                    <button type="submit">Сохранить изменения</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block th:insert="_bootstrap::script"></th:block>
+</body>
+</html>

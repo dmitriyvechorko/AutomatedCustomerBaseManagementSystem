@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:insert="_bootstrap::link">
+    <meta charset="UTF-8">
+    <title>Мои заказы</title>
+</head>
+<body>
+<header th:insert="_header"></header>
+<div class="container">
+    <h2>Мои заказы</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Тема</th>
+            <th>Описание</th>
+            <th>Статус</th>
+            <th>Дата создания</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.theme}"></td>
+            <td th:text="${order.details}"></td>
+            <td th:text="${order.status}"></td>
+            <td th:text="${order.orderDate}"></td>
+            <td sec:authorize="hasRole('EMPLOYEE')">
+                <button class="btn btn-warning"
+                        data-bs-toggle="modal"
+                        th:attr="data-bs-target='#editOrderModal${order.id}'">
+                    Редактировать
+                </button>
+                <!-- Модальное окно для редактирования -->
+                <div class="modal fade" th:id="'editOrderModal' + ${order.id}" tabindex="-1"
+                     aria-labelledby="editOrderModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Редактирование заказа</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form th:action="@{/orders/{id}/edit(id=${order.id})}" method="post">
+                                    <div class="mb-3">
+                                        <label for="theme" class="form-label">Тема заказа</label>
+                                        <input type="text" class="form-control" id="theme" name="theme"
+                                               th:value="${order.theme}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="details" class="form-label">Детали</label>
+                                        <textarea class="form-control" id="details" name="details" required>
+                                            <span th:text="${order.details}"></span>
+                                        </textarea>
+                                    </div>
+                                    <div class="mb-3" th:if="${isEmployee}">
+                                        <label for="status" class="form-label">Статус</label>
+                                        <select class="form-select" id="status" name="status">
+                                            <option th:each="status : ${statuses}"
+                                                    th:value="${status}"
+                                                    th:text="${status}"
+                                                    th:selected="${status == order.status}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Сохранить изменения</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<th:block th:insert="_bootstrap::script"></th:block>
+</body>
+</html>

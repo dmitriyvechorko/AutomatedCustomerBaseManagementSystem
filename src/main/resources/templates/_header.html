@@ -1,0 +1,46 @@
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">InternetBank</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul sec:authorize="isAuthenticated()" class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Главная</a>
+                </li>
+                <li sec:authorize="isAuthenticated()" class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/user/profile">Профиль</a>
+                </li>
+                <li sec:authorize="isAuthenticated()" class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/orders">Заказы</a>
+                </li>
+                <li sec:authorize="hasRole('CLIENT')" class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/orders/create">Оформить заказ</a>
+                </li>
+                <li sec:authorize="hasRole('EMPLOYEE')" class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/user/show">Клиенты</a>
+                </li>
+            </ul>
+            <ul sec:authorize="!isAuthenticated()" class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/login">Войти</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/register">Регистрация</a>
+                </li>
+            </ul>
+            <ul sec:authorize="isAuthenticated()" class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <form th:action="@{/logout}" method="post" style="display: inline;">
+                        <button class="btn btn-outline-danger" type="submit">Выйти</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<th:block th:insert="_bootstrap::script"></th:block>
+</html>
